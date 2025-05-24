@@ -1,0 +1,25 @@
+{
+  "name": "backend-series-continues",
+  "version": "1.0.0",
+  "description": "A backend series",
+  "keywords": [
+    "javascript",
+    "backend",
+    "anoop"
+  ],
+  "homepage": "https://github.com/Anoopkr1906/Backend-Series-Continues..#readme",
+  "bugs": {
+    "url": "https://github.com/Anoopkr1906/Backend-Series-Continues../issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anoopkr1906/Backend-Series-Continues...git"
+  },
+  "license": "ISC",
+  "author": "Anoop Burnwal",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
