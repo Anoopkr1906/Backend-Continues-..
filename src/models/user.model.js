@@ -1,0 +1,98 @@
+import {mongoose , Schema} from "mongoose"
+
+import jwt from "jsonwebtoken"
+import bcrypt from "bcrypt"
+
+const userSchema = new Schema ({
+    username:{
+        type: String,
+        required: true,
+        unique: true,
+        lowercase: true,
+        trim: true,
+        index: true // this will enable searching of user fastly and in optimised manner
+    },
+    email:{
+        type: String,
+        required: true,
+        unique: true,
+        lowercase: true,
+        trim: true,
+    },
+    fullName:{
+        type: String,
+        required: true,
+        trim: true,
+        index: true,
+    },
+    avatar:{
+        type: String, // we will get this from cloudinary url
+        required: true,
+    },
+    coverImage:{
+        type: String, // we will get this from cloudinary url
+    },
+    watchHistory: [{
+        type: Schema.Types.ObjectId,
+        ref: "Video"
+    }],
+    password:{
+        type: String,
+        required: [true , "Password is required"],
+    },
+    refreshToken:{
+        type: String,
+    }
+
+}, {timestamps: true })
+
+userSchema.pre("save" ,async function(next){
+
+    // condition that if password is modified or created / saved then only hash it else moe to next task..
+    // password encryption ...
+
+    if(!this.isModified("password")) {
+        return next();
+    }
+    this.password = bcrypt.hash(this.password , 10)
+    next();
+
+})
+
+userSchema.methods.isPasswordCorrect = async function(password){
+    return await bcrypt.compare(password , this.password )
+}
+
+userSchema.methods.generateAccessToken = function(){
+
+    return jwt.sign(
+        {
+            _id: this._id,
+            email: this.email,
+            username:this.username,
+            fullName : this.fullName,
+        },
+
+        process.env.ACCESS_TOKEN_SECRET,
+
+        // expiry token comes in object !!
+        {
+            expiresIn: process.env.ACCESS_TOKEN_EXPIRY
+        }
+    )
+}
+
+userSchema.methods.generateRefreshToken = function(){
+    return jwt.sign(
+        {
+            _id: this._id,
+        },
+        process.env.REFRESH_TOKEN_SECRET,
+        // expiry token comes in object !!
+        {
+            expiresIn: process.env.REFRESH_TOKEN_EXPIRY
+        }
+    )
+}
+
+export const User = mongoose.model("User" , userSchema);
