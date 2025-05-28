@@ -34,3 +34,13 @@ The cookie-parser npm package is used in Node.js (especially with Express.js) to
 By default, Express doesn't parse this header into a usable object. cookie-parser does that for you.
 so,we have to install npm package of it ..
 
+# bcrypt
+helps to hash password
+
+# jwt
+json web tokens 
+has secret values ...
+
+# payload inside jwt 
+fancy name for data
+
