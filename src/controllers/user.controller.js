@@ -3,7 +3,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-import { isPasswordCorrect , generateAccessToken , generateRefreshToken} from "../models/user.model.js";
+// import { isPasswordCorrect , generateAccessToken , generateRefreshToken} from "../models/user.model.js";
 
 // method for generate access token and refresh token and use it everywhere just by calling this method to generate those ...
 const generateAccessAndRefreshtokens = async (userId) => {
@@ -124,7 +124,7 @@ const loginUser = asyncHandler(async (req , res) => {
 
     const {email , username , password} = req.body ;
 
-    if(!username || !email){
+    if(!username && !email){
         throw new ApiError(400 , "Username or email is required")
     }
 
